@@ -7,9 +7,9 @@ trigger:
 - master
 
 pool:
-  name: PrivateAgent
+  name: Anil
   demands:
-    - agent.name -equals LAPTOP-P6MF1LBB
+    - agent.name -equals LAPTOP-23VP4VGF
   vmImage: ubuntu-latest
 
 steps:

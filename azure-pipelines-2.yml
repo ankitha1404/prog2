@@ -1,0 +1,34 @@
+trigger:
+- main
+
+pool:
+  name: Default
+  demands:
+    - agent.name -equals LAPTOP-23VP4VGF
+
+steps:
+- checkout: self
+
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'myapp/pom.xml'
+    goals: 'clean package'
+    options: '-B'
+    publishJUnitResults: true
+    testResultsFiles: '/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.17'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '/surefire-reports/TEST-*.xml'
+    testRunTitle: 'JUnit test results'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'myapp/target'
+    ArtifactName: 'MyArtifact'
+    publishLocation: 'Container'

@@ -1,7 +1,7 @@
 # Azure DevOps pipeline for Maven project
 
 trigger:
-- master
+- main
 
 pool:
   name: Default
@@ -9,9 +9,11 @@ pool:
     - agent.name -equals LAPTOP-23VP4VGF
 
 steps:
+- checkout: self
+
 - task: Maven@3
   inputs:
-    mavenPomFile: 'pom.xml'
+    mavenPomFile: 'myapp/pom.xml'
     goals: 'clean package'
     options: '-B'
     publishJUnitResults: true
@@ -23,7 +25,7 @@ steps:
     effectivePomSkip: false
 
 - task: PublishTestResults@2
-  inputs: 
+  inputs:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     testRunTitle: 'JUnit test results'
 
@@ -32,5 +34,3 @@ steps:
     PathtoPublish: 'target'
     ArtifactName: 'MyArtifact'
     publishLocation: 'Container'
-
-

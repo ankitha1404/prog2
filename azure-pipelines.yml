@@ -1,7 +1,4 @@
- Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+# Azure DevOps pipeline for Maven project
 
 trigger:
 - master
@@ -10,7 +7,6 @@ pool:
   name: Anil
   demands:
     - agent.name -equals LAPTOP-23VP4VGF
-  vmImage: ubuntu-latest
 
 steps:
 - task: Maven@3
@@ -18,7 +14,7 @@ steps:
     mavenPomFile: 'pom.xml'
     goals: 'clean package'
     options: '-B'
-    PublishJUnitResults: true
+    publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.17'
@@ -26,7 +22,7 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
 
-- task: Publishtestresults@2
+- task: PublishTestResults@2
   inputs: 
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     testRunTitle: 'JUnit test results'
@@ -36,4 +32,5 @@ steps:
     PathtoPublish: 'target'
     ArtifactName: 'MyArtifact'
     publishLocation: 'Container'
+
 

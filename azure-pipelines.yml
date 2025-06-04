@@ -4,7 +4,7 @@ trigger:
 - master
 
 pool:
-  name: Anil
+  name: Default
   demands:
     - agent.name -equals LAPTOP-23VP4VGF
 
